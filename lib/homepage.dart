@@ -1,6 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// ignore: implementation_imports
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
     return Container(
       height: 80,
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: const Color(0xff8092EF),
@@ -147,12 +147,33 @@ class HomePage extends StatelessWidget {
         itemCount: 20,
         itemBuilder: (BuildContext context, int index) {
           return Container(
+            padding: const EdgeInsets.all(10),
             margin: const EdgeInsets.all(4),
             height: 80,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: const Color.fromARGB(255, 228, 228, 228),
+              color: const Color.fromARGB(255, 250, 250, 250),
+            ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: CachedNetworkImage(
+                    height: 65,
+                    width: 65,
+                    fit: BoxFit.cover,
+                    imageUrl:
+                        "https://images.unsplash.com/photo-1654284797623-172cd255b6a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80",
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
+                ),
+              ],
             ),
           );
         },
