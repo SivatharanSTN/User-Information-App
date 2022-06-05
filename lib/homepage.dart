@@ -1,5 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-// ignore: implementation_imports
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -40,9 +41,10 @@ class HomePage extends StatelessWidget {
 
   Widget headerWidget({required BuildContext context}) {
     return Container(
-      height: 70,
+      height: 80,
       width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: const Color(0xff8092EF),
         borderRadius: BorderRadius.circular(30),
@@ -55,6 +57,87 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            height: 65,
+            width: 65,
+            decoration: BoxDecoration(
+              color: const Color(0xff586AD7),
+              borderRadius: BorderRadius.circular(25),
+            ),
+            child: const Center(
+              child: FaIcon(
+                FontAwesomeIcons.commentDots,
+                color: Color(0xffFCFCFF),
+                size: 30,
+              ),
+            ),
+          ),
+          TextButton(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all(
+                  const Color.fromARGB(255, 16, 18, 20)),
+            ),
+            onPressed: () {},
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 1),
+                      child: const Text(
+                        "Team conversations",
+                        style: TextStyle(
+                          color: Color(0xffFCFCFF),
+                        ),
+                      ),
+                    ),
+                    const FaIcon(
+                      FontAwesomeIcons.chevronDown,
+                      color: Colors.white,
+                      size: 15,
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      child: const Text(
+                        "9 Open",
+                        style: TextStyle(
+                          color: Color(0xffFCFCFF),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: const FaIcon(
+              FontAwesomeIcons.bars,
+              color: Color(0xffFCFCFF),
+              size: 22,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: const FaIcon(
+              // ignore: deprecated_member_use
+              FontAwesomeIcons.arrowsV,
+              color: Color(0xffFCFCFF),
+              size: 22,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -64,12 +147,33 @@ class HomePage extends StatelessWidget {
         itemCount: 20,
         itemBuilder: (BuildContext context, int index) {
           return Container(
+            padding: const EdgeInsets.all(10),
             margin: const EdgeInsets.all(4),
             height: 80,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: const Color.fromARGB(255, 228, 228, 228),
+              color: const Color.fromARGB(255, 250, 250, 250),
+            ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: CachedNetworkImage(
+                    height: 65,
+                    width: 65,
+                    fit: BoxFit.cover,
+                    imageUrl:
+                        "https://images.unsplash.com/photo-1654284797623-172cd255b6a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80",
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) =>
+                            CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
+                ),
+              ],
             ),
           );
         },
