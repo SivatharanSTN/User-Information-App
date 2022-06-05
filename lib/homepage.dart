@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:userinformationapp/model_data.dart';
+import 'package:userinformationapp/service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,31 +11,40 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.all(10),
-          decoration: const BoxDecoration(
-            color: Color(0xffA1AEF0),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(40),
-            child: Container(
-              height: MediaQuery.of(context).size.height - 44,
-              width: MediaQuery.of(context).size.width - 20,
-              padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-              decoration: BoxDecoration(
-                color: const Color(0xffFFFFFF),
-                borderRadius: BorderRadius.circular(20),
+        body: FutureBuilder<List<ModelData>?>(
+          future: Service().getData(),
+          builder: ((context, data) {
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                color: Color(0xffA1AEF0),
               ),
-              child: Column(
-                children: [
-                  headerWidget(context: context),
-                  cardContent(context: context),
-                ],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(40),
+                child: Container(
+                  height: MediaQuery.of(context).size.height - 44,
+                  width: MediaQuery.of(context).size.width - 20,
+                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xffFFFFFF),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      headerWidget(context: context),
+                      cardContent(
+                        context: context,
+                        count: data.data?.length ?? 0,
+                        data: data,
+                      )
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
+            );
+          }),
         ),
       ),
     );
@@ -141,15 +152,16 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget cardContent({required BuildContext context}) {
+  Widget cardContent(
+      {required BuildContext context, required int count, data}) {
     return Expanded(
       child: ListView.builder(
-        itemCount: 20,
+        itemCount: count,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             padding: const EdgeInsets.all(10),
             margin: const EdgeInsets.all(4),
-            height: 80,
+            height: 90,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -163,8 +175,7 @@ class HomePage extends StatelessWidget {
                     height: 65,
                     width: 65,
                     fit: BoxFit.cover,
-                    imageUrl:
-                        "https://images.unsplash.com/photo-1654284797623-172cd255b6a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=871&q=80",
+                    imageUrl: data.data?[index].avatar ?? "",
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) =>
                             CircularProgressIndicator(
