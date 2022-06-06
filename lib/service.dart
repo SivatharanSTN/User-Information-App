@@ -6,7 +6,7 @@ import 'package:userinformationapp/model_data.dart';
 
 class Service {
   final String _dataUrl =
-      "https://mocki.io/v1/9f33a807-04fd-4404-a7a4-e3048a29e9a1";
+      "https://mocki.io/v1/e3bb2e7a-11d0-4eb0-b29e-d7c99c43237e";
   var client = http.Client();
 
   Future<List<ModelData>?> getData() async {
